@@ -86,10 +86,10 @@
     for(UIView *item in self.singleItems) {
         [item removeFromSuperview];
     }
-    self.taskCounter = 3;
+    self.taskCounter = 4;
     [self.groupItems removeFromSuperview];
     [self.activityIndicator startAnimating];
-    [self.refreshButton setUserInteractionEnabled:NO];
+    self.refreshButton.enabled = NO;
     [self.singleItems removeAllObjects];
     [self loadContent];
 }
@@ -125,6 +125,7 @@
     dispatch_group_notify(group, secondQueue, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf setGroupItem:pics];
+            [weakSelf checkIfTasksCompleted];
         });
     });
     
@@ -171,7 +172,7 @@
     self.taskCounter -= 1;
     if (self.taskCounter == 0) {
         [self.activityIndicator stopAnimating];
-        [self.refreshButton setUserInteractionEnabled:YES];
+        self.refreshButton.enabled = YES;
     };
 }
 
